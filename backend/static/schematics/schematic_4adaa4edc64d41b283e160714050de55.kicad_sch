@@ -1,0 +1,31 @@
+(kicad_sch (version 20211123) (generator eeschema)
+
+  (uuid 16e2840c-2be9-4c4e-94d9-87c0c90846d3)
+
+  (paper "A4")
+
+  (title_block
+    (title "AI Generated Circuit: create radio
+")
+  )
+
+  (symbol (lib_id "Device:R") (at 50 50 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid 7995c71c-5f1a-4f2a-8bfa-a4afb83489e6)
+    (property "Reference" "R1" (id 0) (at 50 45 0))
+    (property "Value" "1KΩ" (id 1) (at 50 55 0))
+  )
+
+  (symbol (lib_id "Device:LED") (at 90 50 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid d8e28a39-7203-4f5c-a632-6ddbbbb5d1b3)
+    (property "Reference" "LED1" (id 0) (at 90 45 0))
+    (property "Value" "Red LED" (id 1) (at 90 55 0))
+  )
+
+  (wire (pts (xy 50 50) (xy 90 50))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid a309f376-5565-4fae-8db4-21e028eb2c25)
+  )
+
+)

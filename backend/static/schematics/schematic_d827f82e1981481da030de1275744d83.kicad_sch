@@ -1,0 +1,74 @@
+(kicad_sch (version 20211123) (generator eeschema)
+
+  (uuid cd739c33-a190-4094-9f0a-cd9ab33add74)
+
+  (paper "A4")
+
+  (title_block
+    (title "AI Generated Circuit: create radio")
+  )
+
+  (lib_symbols
+    (symbol "Device:R" (pin_numbers hide) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "R" (id 0) (at 2.032 0 90))
+      (property "Value" "R" (id 1) (at 0 0 90))
+      (symbol "R_0_1"
+        (rectangle (start -1.016 -2.54) (end 1.016 2.54) (stroke (width 0.254)))
+      )
+      (pin passive line (at 0 3.81 270) (length 1.27) (name "~" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+      (pin passive line (at 0 -3.81 90) (length 1.27) (name "~" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+    )
+    (symbol "Device:C" (pin_numbers hide) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "C" (id 0) (at 0.635 2.54 0))
+      (property "Value" "C" (id 1) (at 0.635 -2.54 0))
+      (symbol "C_0_1"
+        (polyline (pts (xy -2.032 -0.635) (xy 2.032 -0.635)) (stroke (width 0.508)))
+        (polyline (pts (xy -2.032 0.635) (xy 2.032 0.635)) (stroke (width 0.508)))
+      )
+      (pin passive line (at 0 3.81 270) (length 3.175) (name "~" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+      (pin passive line (at 0 -3.81 90) (length 3.175) (name "~" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+    )
+    (symbol "Device:LED" (pin_numbers hide) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "D" (id 0) (at 0 2.54 0))
+      (property "Value" "LED" (id 1) (at 0 -2.54 0))
+      (symbol "LED_0_1"
+        (polyline (pts (xy -1.27 -1.27) (xy -1.27 1.27) (xy 1.27 0) (xy -1.27 -1.27)) (stroke (width 0.254) (type default) (color 0 0 0 0)) (fill (type none)))
+        (polyline (pts (xy 1.27 -1.27) (xy 1.27 1.27)) (stroke (width 0.254)))
+      )
+      (pin passive line (at -3.81 0 0) (length 2.54) (name "A" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+      (pin passive line (at 3.81 0 180) (length 2.54) (name "K" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+    )
+    (symbol "power:GND" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (id 0) (at 0 -6.35 0) (effects (hide yes)))
+      (property "Value" "GND" (id 1) (at 0 -3.81 0))
+      (symbol "GND_0_1"
+        (polyline (pts (xy 0 0) (xy 0 -1.27)) (stroke (width 0)))
+        (polyline (pts (xy -1.27 -1.27) (xy 1.27 -1.27)) (stroke (width 0.254)))
+        (polyline (pts (xy -0.762 -1.778) (xy 0.762 -1.778)) (stroke (width 0.254)))
+        (polyline (pts (xy -0.254 -2.286) (xy 0.254 -2.286)) (stroke (width 0.254)))
+      )
+      (pin power_in line (at 0 0 270) (length 0) hide (name "GND" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+    )
+  )
+
+
+  (symbol (lib_id "Device:R") (at 100 100 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid 1bfe585a-b93d-411c-96dd-79d0f936a90e)
+    (property "Reference" "R1" (id 0) (at 100 90 0))
+    (property "Value" "1KΩ" (id 1) (at 100 110 0))
+  )
+
+  (symbol (lib_id "Device:LED") (at 140 100 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid 684d26c4-8964-4c6c-bd7b-a09ed5f2ad57)
+    (property "Reference" "LED1" (id 0) (at 140 90 0))
+    (property "Value" "Red LED" (id 1) (at 140 110 0))
+  )
+
+  (wire (pts (xy 100 100) (xy 140 100))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 3193f284-ffe5-4fa6-a8cb-8e94e4ee4f50)
+  )
+
+)
