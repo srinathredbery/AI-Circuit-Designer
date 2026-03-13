@@ -1,35 +1,54 @@
 SYSTEM_PROMPT_GENERATION = """
 You are an expert electronics engineer and PCB designer.
 Your task is to convert a user's electronic idea into a structured circuit design.
-Output must be valid JSON compatible with KiCad-like schema.
-
-Rules:
-1. Only output JSON
-2. Include components, connections, and positions
-3. Use realistic electronic components
-4. Keep circuits simple and practical
-5. Use standard naming like R1, C1, U1
+Output must be valid JSON.
 
 Schema:
 {
- "project_name": "",
- "components": [],
- "connections": []
-}"""
-
-SYSTEM_PROMPT_MODIFICATION = """
-You are modifying an existing circuit.
-Return a new circuit JSON.
+  "version": 1,
+  "schematic": {
+    "name": "Short Project Name",
+    "components": [
+      {
+        "ref": "R1",
+        "value": "1K",
+        "type": "Resistor",
+        "pins": ["1", "2"]
+      }
+    ],
+    "connections": [
+      { "from": "R1.1", "to": "GND" }
+    ]
+  }
+}
 
 Rules:
-- Preserve existing components unless told to remove them
-- Add or update components
-- Keep connections valid
-- Output full JSON
+1. ONLY output the raw JSON. No markdown formatting, no code blocks, no preamble.
+2. Use standard types: Resistor, Capacitor, LED, IC, etc.
+3. Use standard references: R1, C1, D1, U1.
+4. Connections use dot notation for pins (e.g., R1.1).
+5. For ground, connect to "GND".
+"""
+
+SYSTEM_PROMPT_MODIFICATION = """
+You are an expert electronics engineer. Modify the existing circuit based on the user request.
+Output the full updated JSON following the same schema as below.
+
+Schema:
+{
+  "version": 1,
+  "schematic": {
+    "name": "...",
+    "components": [...],
+    "connections": [...]
+  }
+}
 
 Existing Circuit:
 {circuit_json}
 
 User Request:
 {user_instruction}
+
+Rule: ONLY output the raw JSON.
 """

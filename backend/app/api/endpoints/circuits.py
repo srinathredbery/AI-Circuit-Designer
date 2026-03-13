@@ -23,57 +23,61 @@ def save_schematic(circuit_json: Dict[str, Any]) -> str:
         f.write(sch_content)
     return f"/static/schematics/{filename}"
 
+import json
+from app.llm_gateway.router import route_model, generate_with_llm, ModelProvider
+from app.llm_gateway.prompts import SYSTEM_PROMPT_GENERATION, SYSTEM_PROMPT_MODIFICATION
+
+def clean_json_response(raw_response: str) -> Dict[str, Any]:
+    # Remove markdown code blocks if the LLM adds them
+    cleaned = raw_response.strip()
+    if cleaned.startswith("```"):
+        # Remove first line
+        lines = cleaned.split("\n")
+        if lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines[-1].startswith("```"):
+            lines = lines[:-1]
+        cleaned = "\n".join(lines).strip()
+    
+    try:
+        return json.loads(cleaned)
+    except Exception as e:
+        print(f"Error parsing LLM response: {e}")
+        print(f"Raw response: {raw_response}")
+        # Return a shell if parsing fails
+        return {"version": 1, "schematic": {"name": "Error", "components": [], "connections": []}}
+
 @router.post("/generate")
 def generate_circuit(data: IdeaInput, request: Request):
-    # Dummy response in the new format
-    mock_circuit = {
-        "version": 1,
-        "schematic": {
-            "name": f"AI Generated Circuit: {data.idea[:15]}",
-            "components": [
-                {
-                    "ref": "R1",
-                    "value": "1KΩ",
-                    "type": "Resistor",
-                    "pins": ["1", "2"]
-                },
-                {
-                    "ref": "LED1",
-                    "value": "Red LED",
-                    "type": "LED",
-                    "pins": ["A", "K"]
-                }
-            ],
-            "connections": [
-                { "from": "R1.2", "to": "LED1.A" }
-            ]
-        }
-    }
-    sch_url = save_schematic(mock_circuit)
-    # Get base URL from request
+    provider = route_model(data.idea)
+    raw_response = generate_with_llm(provider, SYSTEM_PROMPT_GENERATION, data.idea)
+    circuit_json = clean_json_response(raw_response)
+    
+    sch_url = save_schematic(circuit_json)
     base_url = str(request.base_url).rstrip("/")
     return {
         "status": "success", 
-        "circuit": mock_circuit,
-        "schematic_url": f"{base_url}{sch_url}"
+        "circuit": circuit_json,
+        "schematic_url": f"{base_url}{sch_url}",
+        "provider": provider
     }
 
 @router.post("/modify")
 def modify_circuit(data: CircuitModificationRequest, request: Request):
-    mock_circuit = data.current_circuit
-    if "schematic" in mock_circuit and "components" in mock_circuit["schematic"]:
-         mock_circuit["schematic"]["components"].append(
-             {
-                 "ref": f"C{len(mock_circuit['schematic']['components'])}",
-                 "value": "10µF",
-                 "type": "Capacitor",
-                 "pins": ["1", "2"]
-             }
-         )
-    sch_url = save_schematic(mock_circuit)
+    prompt_with_context = SYSTEM_PROMPT_MODIFICATION.format(
+        circuit_json=json.dumps(data.current_circuit, indent=2),
+        user_instruction=data.user_instruction
+    )
+    
+    provider = route_model(data.user_instruction)
+    raw_response = generate_with_llm(provider, "You are a circuit design assistant.", prompt_with_context)
+    circuit_json = clean_json_response(raw_response)
+    
+    sch_url = save_schematic(circuit_json)
     base_url = str(request.base_url).rstrip("/")
     return {
         "status": "success", 
-        "circuit": mock_circuit,
-        "schematic_url": f"{base_url}{sch_url}"
+        "circuit": circuit_json,
+        "schematic_url": f"{base_url}{sch_url}",
+        "provider": provider
     }
