@@ -5,6 +5,7 @@ An **AI-powered electronic circuit design platform** where users can describe th
 This project demonstrates **LLM-driven engineering design, AI model routing, interactive circuit editing, and machine learning dataset generation**.
 
 ![Circuit Designer Demo](./circuit.gif)
+![KiCanvas Schematic View](./kicanvas.png)
 
 ---
 
